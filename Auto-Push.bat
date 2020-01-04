@@ -1,6 +1,6 @@
-title GIT提交批处理---十亿萝莉的夢
+@echo off
+title GIT自动提交批处理---十亿萝莉的夢
 color 2
-
 
 echo 开始提交代码到本地仓库
 echo 当前目录是：%cd%
