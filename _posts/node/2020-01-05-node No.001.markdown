@@ -68,6 +68,26 @@ tags:
 + JavaScript 由三部分组成，ECMAScript，DOM，BOM。
 + Node.js是由ECMAScript及Node 环境提供的一些附加API组成的，包括文件、网络、路径等等一些更加强大的 API。
 ![](/img/node/node06.jpg) 
+	```js
+		var first = 'hello nodejs';
+		console.log(first);
+		
+		function fn (){
+			console.log('fn函数被调用了');
+		}
+		
+		fn ();
+		
+		for (var i = 0; i <5; i ++) {
+			console.log(i);
+		}
+		
+		if (true){
+			console.log('123');
+		}
+		
+		console.log('文件被修改了')
+	```
 
 ## 3.2 Node.js基础语法
 > 所有ECMAScript语法在Node环境中都可以使用。  
@@ -79,11 +99,24 @@ tags:
 > 在浏览器中全局对象是window，在Node中全局对象是global。
 > Node中全局对象下有以下方法，可以在任何地方使用，global可以省略。  
  
-	console.log()     在控制台中输出
-	setTimeout()     设置超时定时器
-	clearTimeout()  清除超时时定时器
-	setInterval()      设置间歇定时器
-	clearInterval()   清除间歇定时器
+console.log()     在控制台中输出
+setTimeout()     设置超时定时器
+clearTimeout()  清除超时时定时器
+setInterval()      设置间歇定时器
+clearInterval()   清除间歇定时器  
+
+	global.console.log('我是global对象下面的console.log方法输出的内容');
+	
+	global.setTimeout(function (){
+		console.log('123');
+	}, 2000)
+	
+	console.log('我是global对象下面的console.log方法输出的内容');
+	
+	setTimeout(function (){
+		console.log('123');
+	}, 2000)
+
 
 # 4. Node.js模块化开发
 ## 4.1 JavaScript开发弊端
@@ -115,6 +148,11 @@ tags:
 	// 向模块外部导出数据 
 	exports.version = version;
 	exports.sayHi = sayHi;
+- 03.module-a.js
+
+		const add = (n1, n2) => n1 + n2;
+		
+		exports.add = add;
 ## 4.6 模块成员的导入
 > 导入模块时后缀可以省略
 
@@ -125,6 +163,36 @@ tags:
 	console.log(a.version);
 	// 调用b模块中的sayHi方法 并输出其返回值
 	console.log(a.sayHi('黑马讲师')); 
+- 03.module-b.js  
+
+		//const a = require('./03.module-a.js');
+		const a = require('./03.module-a');
+		console.log(a.add(10, 20));
++ 实例
+
+
+- 04.module.exports.js
+
+
+		const greeting = name => `hello ${name}`;
+		const x = 100;
+		exports.x = x;
+		module.exports.greeting = greeting;
+		// 当exports对象和moudle.exports对象指向的不是同一个对象时 以module.exports为准
+		module.exports = {
+			name: 'zhangsan'
+		}
+		
+		exports = {
+			age: 20
+		}
+
+- 04.require.js  
+
+		const a = require('./04.module.exports.js');
+		// console.log(a.greeting('zhangsan'));
+		console.log(a);
+
 
 ## 4.7 模块成员导出的另一种方式
 > exports是module.exports的别名(地址引用关系)，导出对象最终以module.exports为准
@@ -147,40 +215,72 @@ tags:
 ![](/img/node/node13.jpg) 
 ## 5.2 系统模块fs 文件操作
 f：file 文件 ，s：system 系统，文件操作系统。  
-读取文件内容  
 
-	const fs = require('fs');
-	fs.reaFile('文件路径/文件名称'[,'文件编码'], callback);
++ 读取文件内容  
 
+	- const fs = require('fs');  
+	- fs.reaFile('文件路径/文件名称'[,'文件编码'], callback);  
+
+			// 1.通过模块的名字fs对模块进行引用
+			const fs = require('fs');
+			
+			// 2.通过模块内部的readFile读取文件内容
+			fs.readFile('./01.helloworld.js', 'utf8', (err, doc) => {
+				// 如果文件读取出错err 是一个对象 包含错误信息
+				// 如果文件读取正确 err是 null
+				// doc 是文件读取的结果
+				console.log(err);
+				console.log(doc);
+			});
 ## 5.3 系统模块fs 文件操作
-写入文件内容  
++ 写入文件内容  
 
-	fs.writeFile('文件路径/文件名称', '数据', callback);
+- fs.writeFile('文件路径/文件名称', '数据', callback);
 	
-	const content = '<h3>正在使用fs.writeFile写入文件内容</h3>';
-	fs.writeFile('../index.html', content, err => {
-	if (err != null) { 
-	   console.log(err);
-	   return;
-	}
-	console.log('文件写入成功');
-	});
+		const fs = require('fs');
+		
+		fs.writeFile('./demo.txt', '即将要写入的内容', err => {
+			if (err != null) {
+				console.log(err);
+				return;
+			}
+		
+			console.log('文件内容写入成功');
+		})
+
+
 ## 5.4 系统模块path 路径操作
 + 为什么要进行路径拼接   
 	- 不同操作系统的路径分隔符不统一  
 	- /public/uploads/avatar  
 	- Windows 上是 \   /  
-	- Linux 上是 /  
+	- Linux 上是 / 
+
+			// public/uploads/avatar
+			const path = require('path');
+			
+			const finalPath = path.join('public', 'uploads','avatar');
+			
+			console.log(finalPath);
 ## 5.5 路径拼接语法
-> path.join('路径', '路径', ...)  
+	path.join('路径', '路径', ...)    
+	// 导入path模块  	
+	const path = require('path');  
+	// 路径拼接	
+	let finialPath = path.join('itcast', 'a', 'b', 'c.css');	
+	// 输出结果 itcast\a\b\c.css	
+	console.log(finialPath);	
 
-	// 导入path模块
+	const fs = require('fs');
 	const path = require('path');
-	// 路径拼接
-	let finialPath = path.join('itcast', 'a', 'b', 'c.css');
-	// 输出结果 itcast\a\b\c.css
-	console.log(finialPath);
-
+	
+	console.log(__dirname);
+	console.log(path.join(__dirname, '01.helloworld.js'))
+	
+	fs.readFile(path.join(__dirname, '01.helloworld.js'), 'utf8', (err, doc) => {
+		console.log(err)
+		console.log(doc)
+	});
 ## 5.6 相对路径VS绝对路径 
 + 大多数情况下使用绝对路径，因为相对路径有时候相对的是命令行工具的当前工作目录
 + 在读取文件或者设置文件路径时都会选择绝对路径
