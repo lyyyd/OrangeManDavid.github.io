@@ -145,3 +145,82 @@ tags:
 > Node运行环境提供的API. 因为这些API都是以模块化的方式进行开发的, 所以我们又称Node运行环境提供的API为系统模块
 
 ![](/img/node/node13.jpg) 
+## 5.2 系统模块fs 文件操作
+f：file 文件 ，s：system 系统，文件操作系统。  
+读取文件内容  
+
+	const fs = require('fs');
+	fs.reaFile('文件路径/文件名称'[,'文件编码'], callback);
+
+## 5.3 系统模块fs 文件操作
+写入文件内容  
+
+	fs.writeFile('文件路径/文件名称', '数据', callback);
+	
+	const content = '<h3>正在使用fs.writeFile写入文件内容</h3>';
+	fs.writeFile('../index.html', content, err => {
+	if (err != null) { 
+	   console.log(err);
+	   return;
+	}
+	console.log('文件写入成功');
+	});
+## 5.4 系统模块path 路径操作
++ 为什么要进行路径拼接   
+	- 不同操作系统的路径分隔符不统一  
+	- /public/uploads/avatar  
+	- Windows 上是 \   /  
+	- Linux 上是 /  
+## 5.5 路径拼接语法
+> path.join('路径', '路径', ...)  
+
+	// 导入path模块
+	const path = require('path');
+	// 路径拼接
+	let finialPath = path.join('itcast', 'a', 'b', 'c.css');
+	// 输出结果 itcast\a\b\c.css
+	console.log(finialPath);
+
+## 5.6 相对路径VS绝对路径 
++ 大多数情况下使用绝对路径，因为相对路径有时候相对的是命令行工具的当前工作目录
++ 在读取文件或者设置文件路径时都会选择绝对路径
++ 使用__dirname获取当前文件所在的绝对路径
+
+# 6. 第三方模块
+## 6.1 什么是第三方模块
+> 别人写好的、具有特定功能的、我们能直接使用的模块即第三方模块，由于第三方模块通常都是由多个文件组成并且被放置在一个文件夹中，所以又名包。
+
++ 第三方模块有两种存在形式：  
+	- 以js文件的形式存在，提供实现项目具体功能的API接口。  
+	- 以命令行工具形式存在，辅助项目开发  
+## 6.2 获取第三方模块
+> npmjs.com：第三方模块的存储和分发仓库
+
+[npmjs](https://www.npmjs.com/)
+
+## 6.3 获取第三方模块
+> npm (node package manager) ： node的第三方模块管理工具  
+
++ 下载：npm install 模块名称  
++ 卸载：npm unintall package 模块名称  
++ 全局安装与本地安装  
+	- 命令行工具：全局安装  
+	- 库文件：本地安装  
+## 6.4 第三方模块 nodemon
+> nodemon是一个命令行工具，用以辅助项目开发。  
+在Node.js中，每次修改文件都要在命令行工具中重新执行该文件，非常繁琐。  
+
++ 使用步骤  
+	- 使用npm install nodemon –g 下载它  
+	- 在命令行工具中用nodemon命令替代node命令执行文件  
+![](/img/node/node14.jpg) 
+
+
+## 6.5 第三方模块 nrm
+> nrm ( npm registry manager )：npm下载地址切换工具  
+> npm默认的下载地址在国外，国内下载速度慢  
+
++ 使用步骤  
+	- 使用npm install nrm –g 下载它  
+	- 查询可用下载地址列表 nrm ls  
+	- 切换npm下载地址 nrm use 下载地址名称  
