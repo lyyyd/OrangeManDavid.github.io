@@ -1,10 +1,10 @@
 # Site settings
 title: Yanding Blog
-SEOTitle: 李延丁的博客 | Yanding Blog
+SEOTitle: Yanding's Blog | Yanding Blog
 header-img: img/home-bg.jpg
-email: huxpro@gmail.com
+email: orangeherodarin@gmail.com
 description: "关于程序与设计、黑客与画家 | 李延丁，Web & Mobile Lover，Software Engineer，UX Designer | 这里是 @yanding 的个人博客，与你一起发现更大的世界。"
-keyword: "李延丁的博客, yanding Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计"
+keyword: "李延丁的博客, yanding's Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计"
 url: "OrangeManDavid.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
